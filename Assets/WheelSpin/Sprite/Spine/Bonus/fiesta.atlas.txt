@@ -1,0 +1,41 @@
+
+fiesta.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fiesta
+  rotate: false
+  xy: 50, 1869
+  size: 543, 131
+  orig: 545, 133
+  offset: 1, 1
+  index: -1
+fiesta2
+  rotate: false
+  xy: 595, 1869
+  size: 543, 131
+  orig: 545, 133
+  offset: 1, 1
+  index: -1
+flash fiesta
+  rotate: false
+  xy: 2, 1553
+  size: 1998, 314
+  orig: 2018, 330
+  offset: 6, 8
+  index: -1
+flash fiesta2
+  rotate: false
+  xy: 2, 1199
+  size: 1452, 352
+  orig: 1475, 368
+  offset: 4, 8
+  index: -1
+particle
+  rotate: true
+  xy: 2, 1955
+  size: 45, 46
+  orig: 53, 52
+  offset: 4, 3
+  index: -1

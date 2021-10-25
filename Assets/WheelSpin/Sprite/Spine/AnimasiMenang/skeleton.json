@@ -1,0 +1,241 @@
+{
+"skeleton": {
+	"hash": "XJRyx48aJczJHwe3XUDYRrBAbro",
+	"spine": "3.8.99",
+	"x": -572.68,
+	"y": -496.43,
+	"width": 1198,
+	"height": 1080,
+	"images": "./images/",
+	"audio": ""
+},
+"bones": [
+	{ "name": "root" },
+	{ "name": "frame", "parent": "root", "length": 183.3, "rotation": -1.58, "x": -79.75, "y": 4.03 },
+	{ "name": "menang", "parent": "root", "length": 364.86, "rotation": -1.27, "x": -131.15, "y": 238.48 },
+	{ "name": "flare star", "parent": "menang", "rotation": 1.27, "x": -317.7, "y": -1.65 },
+	{ "name": "light flare effect", "parent": "root", "x": -0.58, "y": 19.08 },
+	{ "name": "bone", "parent": "root", "x": -23.47, "y": -155.9 },
+	{ "name": "flare star2", "parent": "menang", "rotation": 1.27, "x": 251.47, "y": 74.23 },
+	{ "name": "flare star3", "parent": "menang", "rotation": 1.27, "x": 585.21, "y": -40.9 }
+],
+"slots": [
+	{ "name": "light flare effect", "bone": "light flare effect", "attachment": "light flare effect", "blend": "screen" },
+	{ "name": "menang", "bone": "menang", "attachment": "menang" },
+	{ "name": "klik dimanapun untuk melanjutkan", "bone": "bone", "attachment": "klik dimanapun untuk melanjutkan" },
+	{ "name": "frame to put number", "bone": "frame", "attachment": "frame to put number" },
+	{ "name": "flare star", "bone": "flare star", "attachment": "flare star" },
+	{ "name": "flare star3", "bone": "flare star3", "attachment": "flare star" },
+	{ "name": "flare star2", "bone": "flare star2", "attachment": "flare star" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"flare star": {
+				"flare star": { "x": 5.17, "y": 1.32, "width": 232, "height": 234 }
+			},
+			"flare star2": {
+				"flare star": { "x": 5.17, "y": 1.32, "width": 232, "height": 234 }
+			},
+			"flare star3": {
+				"flare star": { "x": 5.17, "y": 1.32, "width": 232, "height": 234 }
+			},
+			"frame to put number": {
+				"frame to put number": { "x": 76.87, "y": 2.78, "rotation": 1.58, "width": 928, "height": 198 }
+			},
+			"klik dimanapun untuk melanjutkan": {
+				"klik dimanapun untuk melanjutkan": { "x": 18.2, "y": -2.22, "width": 689, "height": 25 }
+			},
+			"light flare effect": {
+				"light flare effect": { "x": 26.91, "y": 24.49, "width": 1198, "height": 1080 }
+			},
+			"menang": {
+				"menang": { "x": 134.04, "y": -19.28, "rotation": 1.27, "width": 962, "height": 202 }
+			}
+		}
+	}
+],
+"animations": {
+	"loop": {
+		"slots": {
+			"flare star": {
+				"color": [
+					{ "time": 0.2333, "color": "ffffff00" },
+					{ "time": 0.3667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.5333, "color": "ffffffff" },
+					{ "time": 0.6667, "color": "ffffff00" },
+					{ "time": 1.0667, "color": "ffffff00" },
+					{ "time": 1.2, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.3667, "color": "ffffffff" },
+					{ "time": 1.5, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.2333, "name": "flare star" },
+					{ "time": 0.6667, "name": null },
+					{ "time": 1.0667, "name": "flare star" },
+					{ "time": 1.5, "name": null }
+				]
+			},
+			"flare star2": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.0667, "name": "flare star" },
+					{ "time": 0.3667, "name": null },
+					{ "time": 0.9667, "name": "flare star" },
+					{ "time": 1.2667, "name": null },
+					{ "time": 1.4, "name": "flare star" },
+					{ "time": 1.7, "name": null }
+				]
+			},
+			"flare star3": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.5, "name": "flare star" },
+					{ "time": 0.8, "name": null }
+				]
+			},
+			"light flare effect": {
+				"color": [
+					{ "color": "ffffff64" },
+					{ "time": 0.5, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.1667, "color": "ffffffff" },
+					{ "time": 1.8333, "color": "ffffff64" }
+				]
+			}
+		},
+		"bones": {
+			"menang": {
+				"scale": [
+					{ "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.4, "x": 0.953, "y": 0.953, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.8, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2, "x": 0.953, "y": 0.953, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.6 }
+				]
+			},
+			"flare star": {
+				"scale": [
+					{ "time": 0.2333 },
+					{ "time": 0.3667, "x": 1.709, "y": 1.709 },
+					{ "time": 0.5333, "x": 0.146, "y": 0.146 },
+					{ "time": 1.0667 },
+					{ "time": 1.2, "x": 1.709, "y": 1.709 },
+					{ "time": 1.3667, "x": 0.146, "y": 0.146 }
+				]
+			},
+			"flare star2": {
+				"scale": [
+					{ "time": 0.0667 },
+					{ "time": 0.2, "x": 1.709, "y": 1.709 },
+					{ "time": 0.3667, "x": 0.146, "y": 0.146 },
+					{ "time": 0.9667 },
+					{ "time": 1.1, "x": 1.709, "y": 1.709 },
+					{ "time": 1.2667, "x": 0.146, "y": 0.146 }
+				]
+			},
+			"flare star3": {
+				"scale": [
+					{ "time": 0.5 },
+					{ "time": 0.6333, "x": 1.709, "y": 1.709 },
+					{ "time": 0.8, "x": 0.146, "y": 0.146 }
+				]
+			},
+			"light flare effect": {
+				"rotate": [
+					{},
+					{ "time": 0.8333, "angle": 180 },
+					{ "time": 1.8333 }
+				],
+				"scale": [
+					{},
+					{ "time": 0.4, "x": 0.975, "y": 0.975 },
+					{ "time": 1.3333, "x": 1.376, "y": 1.376 },
+					{ "time": 1.8333 }
+				]
+			}
+		}
+	},
+	"start": {
+		"slots": {
+			"flare star": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"flare star2": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"flare star3": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"frame to put number": {
+				"color": [
+					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.2, "color": "ffffffff" }
+				]
+			},
+			"klik dimanapun untuk melanjutkan": {
+				"color": [
+					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "color": "ffffffff" }
+				]
+			},
+			"light flare effect": {
+				"color": [
+					{ "color": "ffffff00" },
+					{ "time": 0.3333, "color": "ffffffc7" }
+				]
+			},
+			"menang": {
+				"color": [
+					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.0333, "name": "menang" }
+				]
+			}
+		},
+		"bones": {
+			"menang": {
+				"translate": [
+					{ "x": 133.12, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "x": 5.79, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333 }
+				],
+				"scale": [
+					{ "x": 0.096, "y": 0.096, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "x": 1.086, "y": 1.086, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333 }
+				]
+			},
+			"frame": {
+				"translate": [
+					{ "x": 70.74, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.2, "x": -11.41, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333 }
+				],
+				"scale": [
+					{ "x": 0.163, "y": 0.163, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.2, "x": 1.12, "y": 1.12, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333 }
+				]
+			},
+			"bone": {
+				"translate": [
+					{ "y": -77.59, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1333, "y": 31.95, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333 }
+				]
+			}
+		}
+	}
+}
+}
