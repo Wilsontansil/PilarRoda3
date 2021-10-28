@@ -35,12 +35,11 @@ public class UserInfoManager : MonoBehaviour
     private GameClient client;
     private string url;
 
-    //public List<Sprite> imgAdsGame;
-    //public InputField txtInput;
+    int count = 0;
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        linkWeb = "https://onesuncell.000webhostapp.com/";
+        linkWeb = "https://free258789.000webhostapp.com/";
     }
     private void Start()
     {
@@ -68,9 +67,28 @@ public class UserInfoManager : MonoBehaviour
         //{
         //    Debug.Log("Error " + e.Message);
         //}
-        StartCoroutine(Redeem(17020001));
+        StartCoroutine(Redeem());
+        //InvokeRepeating(nameof(Loading), 0, 1);
     }
 
+    void Loading()
+    {
+        if (message!=null)
+        {
+            if (count > 3)
+            {
+                message.text = "Connecting";
+                count = 0;
+            }
+            else
+            {
+                message.text += ".";
+            }
+
+            count++;
+        }
+
+    }
     private string getTokenFromURL(string url)
     {
         string[] urlList = url.Split('?');
@@ -157,33 +175,34 @@ public class UserInfoManager : MonoBehaviour
 
     }
 
-    IEnumerator Redeem(int code)
+    IEnumerator Redeem()
     {
         WWWForm form = new WWWForm();
-        form.AddField("UserID", code);
+        form.AddField("UserID", 17020001);
 
-        using (UnityWebRequest www = UnityWebRequest.Post(linkWeb + "WheelSpin/LogInUser.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(linkWeb+"WheelSpin/LogInUser.php", form))
         {
 
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
-                StartCoroutine(Redeem(17020001));
+                StartCoroutine(Redeem());
             }
             else
             {
                 if (www.downloadHandler.text == "0")
                 {
                     Debug.Log("Errorrr");
-                    StartCoroutine(Redeem(17020001));
+                    StartCoroutine(Redeem());
                 }
                 else
                 {
                     ProcessJsonData(www.downloadHandler.text);
+                    StopCoroutine(Redeem());
                     SceneManager.LoadScene("WheelSpin");
                     Debug.Log("Finish Grab Data");
-                    StopAllCoroutines();
+
 
                 }
 
