@@ -13,8 +13,6 @@ public class BtnScriptTurbo : MonoBehaviour
     [SerializeField] List<Sprite> spriteTurbo;
     [SerializeField] List<Image> imgBtn;
     public TextMeshProUGUI txtSpin;
-    //[SerializeField] Image backLight;
-
     GameManager gm;
 
     private void Awake()
@@ -51,13 +49,11 @@ public class BtnScriptTurbo : MonoBehaviour
         {
             imgBtn[0].sprite = spriteTurbo[0];
             imgBtn[0].gameObject.transform.GetComponentInChildren<TextMeshProUGUI>().text = "ON";
-            //if (backLight != null) backLight.sprite = spriteTurbo[2];
         }
         else
         {
             imgBtn[0].sprite = spriteTurbo[1];
             imgBtn[0].gameObject.transform.GetComponentInChildren<TextMeshProUGUI>().text = "OFF";
-            //if (backLight != null) backLight.sprite = spriteTurbo[3];
         }
         ModeButton();
         LeanTween.scale(gm.btnAnim, Vector2.one, .2f).setEase(LeanTweenType.easeOutElastic);
@@ -69,13 +65,11 @@ public class BtnScriptTurbo : MonoBehaviour
         {
             imgBtn[1].sprite = spriteTurbo[0];
             imgBtn[1].gameObject.transform.GetComponentInChildren<TextMeshProUGUI>().text = "ON";
-            //if (backLight != null) backLight.sprite = spriteTurbo[2];
         }
         else
         {
             imgBtn[1].sprite = spriteTurbo[1];
             imgBtn[1].gameObject.transform.GetComponentInChildren<TextMeshProUGUI>().text = "OFF";
-            //if (backLight != null) backLight.sprite = spriteTurbo[3];
         }
         ModeButton();
         LeanTween.scale(gm.btnAnim, Vector2.one, .2f).setEase(LeanTweenType.easeOutElastic);
@@ -103,25 +97,7 @@ public class BtnScriptTurbo : MonoBehaviour
 
     public void StopAllMode()
     {
-        //if (IsAutoPlay)
-        //{
-        //    if (state == AnimationGameState.wheel2)
-        //    {
-        //        if (IsTurboMode)
-        //        {
-        //            toggleTurbo.Switching();
-        //        }
-        //        if (IsAutoPlay)
-        //        {
-        //            toggleAuto.Switching();
-        //        }
-        //    }
-        //    IsAutoPlay = false;
-        //    IsTurboMode = false;
-        //    CheckAutoPlay();
-        //    CheckTurboMode();
-        //}
-        //StopAllCoroutines();
+
         btnCancel.SetActive(false);
         isContinuePlay = false;
         ModeButton();

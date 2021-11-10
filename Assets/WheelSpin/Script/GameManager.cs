@@ -73,13 +73,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject disablePanel;
     public GameObject spineJackpot;
 
-    //[Header("Potrait")]
-    //[SerializeField] TextMeshProUGUI txtReward;//nullable
-
     [Header("History User")]
     [SerializeField] List<TextMeshProUGUI> txtHistory;
     [SerializeField] List<GameObject> txtHistoryJackpot;
-
 
     [Header("Sound")]
     [SerializeField] AudioClip clipClickBtn;
@@ -114,14 +110,12 @@ public class GameManager : MonoBehaviour
         turbo = FindObjectOfType<BtnScriptTurbo>();
         betManager = FindObjectOfType<BetSpinManager>();
         numberCount = FindObjectOfType<NumberCounter>();
-        //Application.targetFrameRate = 60;
     }
 
     void SetUser()
     {
         txtUserID.text = "ID : " + userInfo.UserID;
         txtUserName.text = "User : " + userInfo.UserName;
-        //txtCoin.text = string.Format("{0:#,0.##}", userInfo.UserCoin);
         indicator.color = Color.green;
     }
     private void Start()
@@ -272,7 +266,6 @@ public class GameManager : MonoBehaviour
                 {
                     if (!spin)
                     {
-                        Debug.Log("Spin");
                         spin = true;
                         isFinishSendData = false;
                         if (!turbo.IsTurboMode)
@@ -338,7 +331,6 @@ public class GameManager : MonoBehaviour
             if (i<listReward.ListReward.Count)
             {
                 spinWheel.prize[i] = listReward.ListReward[i].RewardName;
-                //spinWheel.txtReward[i].text = KiloFormat(float.Parse(listReward.ListReward[i].RewardName));
                 spinWheel.txtReward[i].text = listReward.ListReward[i].RewardName;
 
             }
@@ -433,14 +425,6 @@ public class GameManager : MonoBehaviour
 
 
         }
-        //if (ListHistoryUser.ListHistoryReward.Count>0)
-        //{
-
-        //    if (SceneManager.GetActiveScene().name == "WheelSpinPotrait")
-        //    {
-        //        txtReward.text = "+ " + KiloFormat(float.Parse(ListHistoryUser.ListHistoryReward[0].RewardName));
-        //    }
-        //}
 
     }
 
@@ -522,14 +506,14 @@ public class GameManager : MonoBehaviour
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                //Debug.Log(www.error);
                 StartCoroutine(GetCoinUser());
             }
             else
             {
                 if (www.downloadHandler.text == "0")
                 {
-                    Debug.Log("Errorrr");
+                    //Debug.Log("Errorrr");
                     StartCoroutine(GetCoinUser());
                 }
                 else
@@ -545,7 +529,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator SendHistory(int rewardID, int userID)
     {
-        Debug.Log("Send History");
+        //Debug.Log("Send History");
         WWWForm form = new WWWForm();
         form.AddField("RewardID", rewardID);
         form.AddField("Multiple", betManager.betTotal);
@@ -556,10 +540,10 @@ public class GameManager : MonoBehaviour
         {
 
             yield return www.SendWebRequest();
-            Debug.Log("Send WebRequest");
+            //Debug.Log("Send WebRequest");
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error + " Send Data");
+                //Debug.Log(www.error + " Send Data");
                 isFinishSendData = false;
                 StopAllCoroutines();
                 StartCoroutine(SendHistory(listReward.ListReward[tempPosWin].RewardID, userInfo.UserID));
@@ -568,7 +552,7 @@ public class GameManager : MonoBehaviour
             {
                 if (www.downloadHandler.text == "0")
                 {
-                    Debug.Log("Error Send Data");
+                    //Debug.Log("Error Send Data");
                     isFinishSendData = false;
                     StopAllCoroutines();
                     StartCoroutine(SendHistory(listReward.ListReward[tempPosWin].RewardID, userInfo.UserID));
@@ -576,7 +560,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("FinishSendData " + www.downloadHandler.text);
+                    //Debug.Log("FinishSendData " + www.downloadHandler.text);
                     yield return StartCoroutine(GetCoinUser());
                     yield return StartCoroutine(GetHistoryUser(userID));
                     isFinishSendData = true;
@@ -595,7 +579,7 @@ public class GameManager : MonoBehaviour
         yield return www.SendWebRequest();
         if (www.isNetworkError)
         {
-            Debug.LogError("Errror Connection");
+            //Debug.LogError("Errror Connection");
             StartCoroutine(GetRewardDetail());
         }
         else
@@ -608,7 +592,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Errror Connection");
+                //Debug.LogError("Errror Connection");
                 StartCoroutine(GetRewardDetail());
 
             }
@@ -622,21 +606,21 @@ public class GameManager : MonoBehaviour
         yield return www.SendWebRequest();
         if (www.isNetworkError)
         {
-            Debug.LogError("Errror Connection");
+            //Debug.LogError("Errror Connection");
             StartCoroutine(GetJackpotDetail());
         }
         else
         {
             if (www.isDone)
             {
-                Debug.LogError("Get Jackpot Data");
+                //Debug.LogError("Get Jackpot Data");
                 Debug.Log(www.downloadHandler.text);
                 ProcessJsonJackpotDataList(www.downloadHandler.text);
                 StopCoroutine(GetJackpotDetail());
             }
             else
             {
-                Debug.LogError("Errror Getdata");
+                //Debug.LogError("Errror Getdata");
                 StartCoroutine(GetJackpotDetail());
             }
         }
@@ -653,14 +637,14 @@ public class GameManager : MonoBehaviour
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                //Debug.Log(www.error);
                 StartCoroutine(GetHistoryUser(userID));
             }
             else
             {
                 if (www.downloadHandler.text == "0")
                 {
-                    Debug.Log("Errorrr");
+                    //Debug.Log("Errorrr");
                     StartCoroutine(GetHistoryUser(userID));
                 }
                 else
@@ -749,11 +733,10 @@ public class GameManager : MonoBehaviour
         Message.SetActive(true);
         if (listReward.ListReward[pos].IsZonk == 0)
         {
-            Debug.Log("CheckWinLose = "+ pos);
+            //Debug.Log("CheckWinLose = "+ pos);
             if (listReward.ListReward[pos].IsJackpot == 1)
             {
                 Message.GetComponent<WinAnimation>().WinGameSpine(string.Format("{0:#,0.##}", total), true, false,false);
-                //StartCoroutine(SendHistory(listReward.ListReward[pos].RewardID, userInfo.UserID));
                 LeanAudio.play(clipJackPot);
                 turbo.StopAllMode();
                 spineJackpot.SetActive(true);
@@ -775,9 +758,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 LeanAudio.play(clipWin);
-                //Message.SetActive(true);
                 Message.GetComponent<WinAnimation>().TextPopUpFly(string.Format("{0:#,0.##}", total));
-                //StartCoroutine(SendHistory(listReward.ListReward[pos].RewardID, userInfo.UserID));
 
             }
             if (Message.activeInHierarchy)
@@ -788,13 +769,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //Message.SetActive(true);
             Message.GetComponent<WinAnimation>().TextPopUpFly(string.Format("{0:#,0.##}", total));
-            //StartCoroutine(SendHistory(listReward.ListReward[pos].RewardID,userInfo.UserID));
         }
         StartCoroutine(SendHistory(listReward.ListReward[pos].RewardID, userInfo.UserID));
-        Debug.Log("CheckWinLose");
-        //StartCoroutine(GetJackpotDetail());
+        //Debug.Log("CheckWinLose");
     }
     void PopUpTXTIDR()
     {

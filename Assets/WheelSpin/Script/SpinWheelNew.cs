@@ -113,7 +113,7 @@ public class SpinWheelNew : MonoBehaviour
 
     private void onSpinResultHandler(object sender, int message)
     {
-        Debug.Log("Spin result handler " + message);
+        //Debug.Log("Spin result handler " + message);
         Spin(message);
 
     }
@@ -123,7 +123,7 @@ public class SpinWheelNew : MonoBehaviour
         if (OnStartSpinAction != null)
             OnStartSpinAction.Invoke(order);
 
-        Debug.Log("itemNumber No. : " + itemNumber);
+        //Debug.Log("itemNumber No. : " + itemNumber);
 
         //float angleAdjust = anglePerItem / (float)2;
         if (turbo.IsTurboMode)
@@ -177,7 +177,7 @@ public class SpinWheelNew : MonoBehaviour
             }
 
             int animationCurveNumber = animationSelectNo;
-            Debug.Log("Animation Curve No. : " + animationCurveNumber);
+            //Debug.Log("Animation Curve No. : " + animationCurveNumber);
 
             while (timer < time)
             {
@@ -194,7 +194,7 @@ public class SpinWheelNew : MonoBehaviour
 
             if (OnEndSpinAction != null)
                 OnEndSpinAction.Invoke(itemNumber);
-            Debug.Log("Prize: " + prize[itemNumber]);//use prize[itemNumnber] as per requirement
+            //Debug.Log("Prize: " + prize[itemNumber]);//use prize[itemNumnber] as per requirement
             gameManager.CheckWinLose(itemNumber);
         }
         else
@@ -232,7 +232,7 @@ public class SpinWheelNew : MonoBehaviour
 
             if (OnEndSpinAction != null)
                 OnEndSpinAction.Invoke(itemNumber);
-            Debug.Log("Prize: " + prize[itemNumber]);//use prize[itemNumnber] as per requirement
+            //Debug.Log("Prize: " + prize[itemNumber]);//use prize[itemNumnber] as per requirement
             gameManager.CheckWinLose(itemNumber);
 
         }

@@ -201,7 +201,7 @@ public class UserInfoManager : MonoBehaviour
                     ProcessJsonData(www.downloadHandler.text);
                     StopCoroutine(Redeem());
                     SceneManager.LoadScene("WheelSpin");
-                    Debug.Log("Finish Grab Data");
+                    //Debug.Log("Finish Grab Data");
 
 
                 }

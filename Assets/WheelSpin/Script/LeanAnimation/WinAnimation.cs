@@ -9,13 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class WinAnimation : MonoBehaviour
 {
-    //[SerializeField] GameObject Win;
-    //[SerializeField] GameObject Lose;
-    //[SerializeField] GameObject btnJackpot;
     [SerializeField] TextMeshProUGUI txtReward;
     [SerializeField] TextMeshProUGUI txtRewardTotal;
-    //[SerializeField] TextMeshProUGUI txtDesc;
-    [SerializeField] List<GameObject> bulb;
+    //[SerializeField] List<GameObject> bulb;
 
     [Header("RewardPopUp")]
     [SerializeField] GameObject textPopUp;
@@ -30,9 +26,6 @@ public class WinAnimation : MonoBehaviour
 
     [Header("Spine Asset")]
     GameObject WinSpine;
-    //[SerializeField] SkeletonDataAsset fiestaWin;
-    //[SerializeField] SkeletonDataAsset jackpotWin;
-    //[SerializeField] SkeletonDataAsset grandJackpotWin;
     GameObject rewardBar;
     [SerializeField] List<SkeletonDataAsset> animSpine;
 
@@ -41,11 +34,6 @@ public class WinAnimation : MonoBehaviour
         gm = FindObjectOfType<GameManager>();
         turbo = FindObjectOfType<BtnScriptTurbo>();
     }
-    //private void Start()
-    //{
-    //    //btnJackpot.GetComponent<Button>().onClick.AddListener(()=>CloseMessageWn());
-    //    //ZigZag();
-    //}
     private void OnEnable()
     {
         Refresh();
@@ -58,7 +46,6 @@ public class WinAnimation : MonoBehaviour
     void Refresh()
     {
         canClose = false;
-        //txtDesc.gameObject.transform.localPosition = new Vector3(0, 1000);
         txtReward.gameObject.transform.localPosition = new Vector3(0, 1000);
         txtRewardTotal.gameObject.transform.localScale = Vector3.zero;
         txtReward.gameObject.transform.localScale = Vector2.one;
@@ -117,7 +104,7 @@ public class WinAnimation : MonoBehaviour
             }
             rewardSpine.AnimationName = "loop";
             rewardSpine.loop = true;
-            Debug.Log("Tesdt.........");
+            //Debug.Log("Tesdt.........");
 
         };
 
@@ -158,7 +145,6 @@ public class WinAnimation : MonoBehaviour
     }
     void SetUpdateText()
     {
-        //LeanTween.cancel(txtReward.gameObject);
         txtReward.transform.localScale = Vector3.zero;
         txtReward.gameObject.SetActive(false);
         gm.numberCount.Value = gm.userInfo.UserCoin;
@@ -196,11 +182,6 @@ public class WinAnimation : MonoBehaviour
         StopCoroutine(FadeOut(gb));
         Destroy(gb);
     }
-    //public void CloseMessage()
-    //{
-    //    CloseMessageWn();
-    //}
-
 
     IEnumerator CloseWinLose(bool isjackpot)
     {
@@ -228,18 +209,9 @@ public class WinAnimation : MonoBehaviour
         if (canClose)
         {
             Refresh();
-            //Win.gameObject.transform.localScale = Vector3.zero;
-            //Lose.gameObject.transform.localScale = Vector3.zero;
-            //Win.gameObject.SetActive(false);
-            //Lose.gameObject.SetActive(false);
-            //btnJackpot.SetActive(false);
-
             gm.spineJackpot.SetActive(false);
             Destroy(WinSpine);
             Destroy(rewardBar);
-            //rewardBar.gameObject.SetActive(false);
-            //rewardBar.loop = false;
-            //rewardBar.AnimationName = "start";
             gameObject.SetActive(false);
         }
 
@@ -277,75 +249,75 @@ public class WinAnimation : MonoBehaviour
         }
         return x;
     }
-    int zigZag = 0;
-    void ZigZag()
-    {
-        zigZag = 0;
+    //int zigZag = 0;
+    //void ZigZag()
+    //{
+    //    zigZag = 0;
 
-        InvokeRepeating("Zig", 0, .1f);
-    }
-    void Zig()
-    {
-        if (zigZag<15)
-        {
-            for (int i = 0; i < bulb.Count; i++)
-            {
-                if (zigZag%2==0)
-                {
-                    if (i%2==0)
-                    {
-                        bulb[i].SetActive(true);
-                    }
-                    else
-                    {
-                        bulb[i].SetActive(false);
-                    }
-                }
-                else
-                {
-                    if (i % 2 != 0)
-                    {
-                        bulb[i].SetActive(true);
-                    }
-                    else
-                    {
-                        bulb[i].SetActive(false);
-                    }
-                }
+    //    InvokeRepeating("Zig", 0, .1f);
+    //}
+    //void Zig()
+    //{
+    //    if (zigZag<15)
+    //    {
+    //        for (int i = 0; i < bulb.Count; i++)
+    //        {
+    //            if (zigZag%2==0)
+    //            {
+    //                if (i%2==0)
+    //                {
+    //                    bulb[i].SetActive(true);
+    //                }
+    //                else
+    //                {
+    //                    bulb[i].SetActive(false);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                if (i % 2 != 0)
+    //                {
+    //                    bulb[i].SetActive(true);
+    //                }
+    //                else
+    //                {
+    //                    bulb[i].SetActive(false);
+    //                }
+    //            }
 
-            }
-            zigZag += 1;
-        }
-        else
-        {
-            CancelInvoke("Zig");
-            zigZag = 0;
-            InvokeRepeating("IncrementAnim", 0, .1f);
-        }
+    //        }
+    //        zigZag += 1;
+    //    }
+    //    else
+    //    {
+    //        CancelInvoke("Zig");
+    //        zigZag = 0;
+    //        InvokeRepeating("IncrementAnim", 0, .1f);
+    //    }
 
-    }
+    //}
 
-    void IncrementAnim()
-    {
-        if (zigZag>bulb.Count)
-        {
-            CancelInvoke("IncrementAnim");
-            //InvokeRepeating("ZigZag", 0, 0);
-            ZigZag();
-        }
-        for (int i = 0; i < bulb.Count; i++)
-        {
-            if (i == zigZag)
-            {
-                bulb[i].SetActive(true);
-            }
-            else
-            {
-                bulb[i].SetActive(false);
-            }
-        }
-        zigZag += 1;
+    //void IncrementAnim()
+    //{
+    //    if (zigZag>bulb.Count)
+    //    {
+    //        CancelInvoke("IncrementAnim");
+    //        //InvokeRepeating("ZigZag", 0, 0);
+    //        ZigZag();
+    //    }
+    //    for (int i = 0; i < bulb.Count; i++)
+    //    {
+    //        if (i == zigZag)
+    //        {
+    //            bulb[i].SetActive(true);
+    //        }
+    //        else
+    //        {
+    //            bulb[i].SetActive(false);
+    //        }
+    //    }
+    //    zigZag += 1;
 
 
-    }
+    //}
 }
