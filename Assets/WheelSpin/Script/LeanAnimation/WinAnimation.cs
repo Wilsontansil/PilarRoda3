@@ -46,7 +46,7 @@ public class WinAnimation : MonoBehaviour
     void Refresh()
     {
         canClose = false;
-        txtReward.gameObject.transform.localPosition = new Vector3(0, 1000);
+        txtReward.gameObject.transform.localPosition = new Vector3(0, 45);
         txtRewardTotal.gameObject.transform.localScale = Vector3.zero;
         txtReward.gameObject.transform.localScale = Vector2.one;
         txtReward.GetComponent<TextMeshProUGUI>().alpha = 1;
@@ -59,7 +59,7 @@ public class WinAnimation : MonoBehaviour
         WinSpine.AddComponent<SkeletonAnimation>();
         WinSpine.GetComponent<MeshRenderer>().sortingOrder = 2;
         if(SceneManager.GetActiveScene().name == "WheelSpin") WinSpine.transform.localScale = new Vector3(.4f, .4f); else WinSpine.transform.localScale = new Vector3(.15f, .15f);
-        WinSpine.transform.position = new Vector3(0, 1.5f);
+        WinSpine.transform.position = new Vector3(0, 2);
         SkeletonAnimation gbSpine = WinSpine.GetComponent<SkeletonAnimation>();
         WinSpine.gameObject.layer = 2;
         if (isBonus)
