@@ -51,7 +51,7 @@
 				"light flare effect": { "x": 26.91, "y": 24.49, "width": 1198, "height": 1080 }
 			},
 			"menang": {
-				"menang": { "x": 134.04, "y": -19.28, "rotation": 1.27, "width": 962, "height": 202 }
+				"menang": { "x": 134.04, "y": 90, "rotation": 1.27, "width": 962, "height": 202 }
 			}
 		}
 	}

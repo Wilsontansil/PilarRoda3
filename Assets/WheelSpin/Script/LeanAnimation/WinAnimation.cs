@@ -11,6 +11,7 @@ public class WinAnimation : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI txtReward;
     [SerializeField] TextMeshProUGUI txtRewardTotal;
+    [SerializeField] GameObject gbDark;
     //[SerializeField] List<GameObject> bulb;
 
     [Header("RewardPopUp")]
@@ -46,7 +47,7 @@ public class WinAnimation : MonoBehaviour
     void Refresh()
     {
         canClose = false;
-        txtReward.gameObject.transform.localPosition = new Vector3(0, 45);
+        txtReward.gameObject.transform.localPosition = new Vector3(0, 17);
         txtRewardTotal.gameObject.transform.localScale = Vector3.zero;
         txtReward.gameObject.transform.localScale = Vector2.one;
         txtReward.GetComponent<TextMeshProUGUI>().alpha = 1;
@@ -55,6 +56,7 @@ public class WinAnimation : MonoBehaviour
 
     public void WinGameSpine(string reward,bool isJackpot,bool isGrandJackpot,bool isBonus)
     {
+        gbDark.SetActive(true);
         WinSpine = new GameObject();
         WinSpine.AddComponent<SkeletonAnimation>();
         WinSpine.GetComponent<MeshRenderer>().sortingOrder = 2;
@@ -82,7 +84,7 @@ public class WinAnimation : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "WheelSpin")
         {
             rewardBar.transform.localScale = new Vector3(.4f, .4f);
-            rewardBar.transform.position = new Vector3(0, -1f);
+            rewardBar.transform.position = new Vector3(0, -.5f);
         }
         else
         {
@@ -212,6 +214,7 @@ public class WinAnimation : MonoBehaviour
             gm.spineJackpot.SetActive(false);
             Destroy(WinSpine);
             Destroy(rewardBar);
+            gbDark.SetActive(false);
             gameObject.SetActive(false);
         }
 

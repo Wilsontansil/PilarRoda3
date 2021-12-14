@@ -371,8 +371,9 @@ public class GameManager : MonoBehaviour
         }
         if (SceneManager.GetActiveScene().name == "WheelSpin")
         {
-            spinWheel.txtJackpot100x.text = string.Format("{0:#,0.##}", float.Parse(listReward.ListReward[6].RewardName) * betManager.betTotal);
-            spinWheel.txtJackpot20x.text = string.Format("{0:#,0.##}", float.Parse(listReward.ListReward[16].RewardName) * betManager.betTotal);
+            spinWheel.txtJackpot100x.text = string.Format("{0:#,0.##}", float.Parse(listReward.ListReward[5].RewardName) * betManager.betTotal);// x100
+            spinWheel.txtJackpot20x.text = string.Format("{0:#,0.##}", float.Parse(listReward.ListReward[11].RewardName) * betManager.betTotal);// x20
+            spinWheel.txtJackpot30x.text = string.Format("{0:#,0.##}", float.Parse(listReward.ListReward[18].RewardName) * betManager.betTotal);// x30
         }
     }
 

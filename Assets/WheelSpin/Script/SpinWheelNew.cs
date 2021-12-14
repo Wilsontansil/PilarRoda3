@@ -9,6 +9,7 @@ public class SpinWheelNew : MonoBehaviour
     public List<string> prize;
     public List<TextMeshProUGUI> txtReward;
     public TextMeshProUGUI txtJackpot100x;
+    public TextMeshProUGUI txtJackpot30x;
     public TextMeshProUGUI txtJackpot20x;
 
     public List<AnimationCurve> animationCurves;
