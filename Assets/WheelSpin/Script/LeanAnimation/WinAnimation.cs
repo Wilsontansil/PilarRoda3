@@ -20,7 +20,7 @@ public class WinAnimation : MonoBehaviour
 
     [Header("Message")]
     [SerializeField] GameObject textMessage;
-    [SerializeField] GameObject parentMesssage;
+    //[SerializeField] GameObject parentMesssage;
     GameManager gm;
     BtnScriptTurbo turbo;
     [SerializeField] bool canClose;
@@ -169,7 +169,7 @@ public class WinAnimation : MonoBehaviour
     public void Message(string x)
     {
         GameObject gb = Instantiate(textMessage);
-        gb.transform.SetParent(parentMesssage.transform);
+        gb.transform.SetParent(gameObject.transform);
         gb.transform.localScale = Vector3.one;
         gb.transform.localPosition = Vector3.zero;
         gb.GetComponent<TextMeshProUGUI>().text = x;
@@ -216,6 +216,7 @@ public class WinAnimation : MonoBehaviour
             Destroy(rewardBar);
             gbDark.SetActive(false);
             gameObject.SetActive(false);
+            txtReward.gameObject.SetActive(false);
         }
 
     }
