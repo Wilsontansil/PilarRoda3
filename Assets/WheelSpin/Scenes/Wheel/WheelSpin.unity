@@ -13551,7 +13551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299f50d63d3646e48beabe7fb21a08f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: wheel1
+  name: wheel3
   arrow: {fileID: 1628460778}
   button: {fileID: 1623315276}
   btnAnim: {fileID: 471740948}
@@ -15562,7 +15562,6 @@ MonoBehaviour:
   parentPopUp: {fileID: 327714309}
   textMessage: {fileID: 8262436452412735897, guid: 3ebf2594b5a60e1448dd6831f734c892,
     type: 3}
-  parentMesssage: {fileID: 0}
   canClose: 0
   animSpine:
   - {fileID: 11400000, guid: f305fe8ec9d508c40bc04265f9b61d9d, type: 2}

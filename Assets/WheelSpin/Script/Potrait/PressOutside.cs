@@ -44,7 +44,7 @@ public class PressOutside : MonoBehaviour
             Camera camera = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : Camera;
             if (!RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Input.mousePosition, camera))
             {
-                potraitPressOutside.Close();
+                //potraitPressOutside.Close();
             }
 
         }

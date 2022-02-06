@@ -11,10 +11,55 @@ public class ClassUser
 {
     public int UserID;
     public string UserName;
-    public string UserPhone;
+    //public string UserPhone;
     public int UserCoin;
-    public string DateGenerate;
+    //public string DateGenerate;
 
+}
+
+[System.Serializable]
+public class RewardDetail
+{
+    public int RewardID;
+    public string RewardName;
+    public int RewardPosition;
+    public int RewardPercentage;
+    public int IsZonk;
+    public int IsJackpot;
+    public int IsGrandJackpot;
+    public int IsBonus;
+}
+[System.Serializable]
+public class ListRewardDetail
+{
+    public List<RewardDetail> ListReward = new List<RewardDetail>();
+}
+
+
+[System.Serializable]
+public class RewardHistoryUser
+{
+    public string RewardTime;
+    //public string RewardName;
+    public string TotalReward;
+}
+[System.Serializable]
+public class ListHistoryUser
+{
+    public List<RewardHistoryUser> ListHistoryReward = new List<RewardHistoryUser>();
+}
+
+[System.Serializable]
+public class RewardJackpotHistoryUser
+{
+    public string RewardTime;
+    public string UserName;
+    public string RewardName;
+}
+[System.Serializable]
+public class ListHistoryUserJackpot
+{
+    public List<RewardJackpotHistoryUser> ListHistoryJackpot = new List<RewardJackpotHistoryUser>();
 }
 public class UserInfoManager : MonoBehaviour
 {
@@ -24,9 +69,9 @@ public class UserInfoManager : MonoBehaviour
 
     public int UserID;
     public string UserName;
-    public string UserPhone;
+    //public string UserPhone;
     public double UserCoin;
-    public string DateGenerate;
+    //public string DateGenerate;
 
     public static string linkWeb;
 
@@ -39,7 +84,8 @@ public class UserInfoManager : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        linkWeb = "https://free258789.000webhostapp.com/";
+        linkWeb = "https://free2587890.000webhostapp.com";
+        //linkWeb = "http://127.0.0.1:8000";
     }
     private void Start()
     {
@@ -67,8 +113,8 @@ public class UserInfoManager : MonoBehaviour
         //{
         //    Debug.Log("Error " + e.Message);
         //}
-        StartCoroutine(Redeem());
-        //InvokeRepeating(nameof(Loading), 0, 1);
+        //StartCoroutine(Redeem(17020001));
+        StartCoroutine(POSTLogIn(17020001));
     }
 
     void Loading()
@@ -166,49 +212,86 @@ public class UserInfoManager : MonoBehaviour
     {
         ClassUser user = JsonUtility.FromJson<ClassUser>(url);
         UserName = user.UserName;
-        UserPhone = user.UserPhone;
+        //UserPhone = user.UserPhone;
         UserCoin = user.UserCoin;
-        DateGenerate = user.DateGenerate;
+        //DateGenerate = user.DateGenerate;
         UserID = user.UserID;
 
 
 
     }
 
-    IEnumerator Redeem()
+    //IEnumerator Redeem()
+    //{
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("UserID", 17020001);
+
+    //    using (UnityWebRequest www = UnityWebRequest.Post(linkWeb+"WheelSpin/LogInUser.php", form))
+    //    {
+
+    //        yield return www.SendWebRequest();
+    //        if (www.isNetworkError || www.isHttpError)
+    //        {
+    //            Debug.Log(www.error);
+    //            StartCoroutine(Redeem());
+    //        }
+    //        else
+    //        {
+    //            if (www.downloadHandler.text == "0")
+    //            {
+    //                Debug.Log("Errorrr");
+    //                StartCoroutine(Redeem());
+    //            }
+    //            else
+    //            {
+    //                ProcessJsonData(www.downloadHandler.text);
+    //                StopCoroutine(Redeem());
+    //                SceneManager.LoadScene("WheelSpin");
+    //                //Debug.Log("Finish Grab Data");
+    //            }
+    //        }
+    //    }
+    //}
+
+    //public IEnumerator RequestLogIn(int id)
+    //{
+    //    string url = linkWeb + "/api/UserInfo?UserID=" + id;
+    //    UnityWebRequest request = UnityWebRequest.Get(url);
+    //    yield return request.SendWebRequest();
+    //    if (request.isHttpError || request.isNetworkError)
+    //    {
+    //        Debug.Log(request.error);
+    //        yield break;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log(request.downloadHandler.text);
+    //        ProcessJsonData(request.downloadHandler.text);
+    //        StopAllCoroutines();
+    //        SceneManager.LoadScene("WheelSpin");
+    //    }
+    //}
+    public IEnumerator POSTLogIn(int id)
     {
         WWWForm form = new WWWForm();
-        form.AddField("UserID", 17020001);
+        form.AddField("UserID", id);
 
-        using (UnityWebRequest www = UnityWebRequest.Post(linkWeb+"WheelSpin/LogInUser.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/UserInfo", form))
         {
-
             yield return www.SendWebRequest();
+            Debug.Log(www.downloadHandler.text);
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
-                StartCoroutine(Redeem());
             }
             else
             {
-                if (www.downloadHandler.text == "0")
-                {
-                    Debug.Log("Errorrr");
-                    StartCoroutine(Redeem());
-                }
-                else
-                {
-                    ProcessJsonData(www.downloadHandler.text);
-                    StopCoroutine(Redeem());
-                    SceneManager.LoadScene("WheelSpin");
-                    //Debug.Log("Finish Grab Data");
-
-
-                }
-
+                //Debug.Log(request.downloadHandler.text);
+                ProcessJsonData(www.downloadHandler.text);
+                StopAllCoroutines();
+                SceneManager.LoadScene("WheelSpin");
             }
         }
-
     }
 }
 

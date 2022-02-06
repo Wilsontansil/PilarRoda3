@@ -7,49 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
-[System.Serializable]
-public class RewardDetail
-{
-    public int RewardID;
-    public string RewardName;
-    public int RewardPosition;
-    public int RewardPercentage;
-    public int IsZonk;
-    public int IsJackpot;
-    public int IsGrandJackpot;
-    public int IsBonus;
-}
-[System.Serializable]
-public class ListRewardDetail
-{
-    public List<RewardDetail> ListReward = new List<RewardDetail>();
-}
 
-
-[System.Serializable]
-public class RewardHistoryUser
-{
-    public string RewardTime;
-    public string RewardName;
-}
-[System.Serializable]
-public class ListHistoryUser
-{
-    public List<RewardHistoryUser> ListHistoryReward = new List<RewardHistoryUser>();
-}
-
-[System.Serializable]
-public class RewardJackpotHistoryUser
-{
-    public string RewardTime;
-    public string UserName;
-    public string RewardName;
-}
-[System.Serializable]
-public class ListHistoryUserJackpot
-{
-    public List<RewardJackpotHistoryUser> ListHistoryJackpot = new List<RewardJackpotHistoryUser>();
-}
 public class GameManager : MonoBehaviour
 {
     [Header("Wheel")]
@@ -159,14 +117,14 @@ public class GameManager : MonoBehaviour
             txtHistoryJackpot[i].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "-";
         }
     }
-    public void ReloadJackPotHistory()
-    {
-        StartCoroutine(GetJackpotDetail());
-    }
+    //public void ReloadJackPotHistory()
+    //{
+    //    StartCoroutine(GetJackpotDetail());
+    //}
     public void ReloadReward()
     {
         //client.Send("getallreward", "");
-        StartCoroutine(GetRewardDetail());
+        StartCoroutine(RequestGetReward());
     }
 
 
@@ -322,29 +280,29 @@ public class GameManager : MonoBehaviour
 
 
     }
-    void ProcessJsonDataList(string url)
-    {
-        listReward = JsonUtility.FromJson<ListRewardDetail>(url);
+    //void ProcessJsonDataList(string url)
+    //{
+    //    listReward = JsonUtility.FromJson<ListRewardDetail>(url);
 
-        for (int i = 0; i < spinWheel.txtReward.Count; i++)
-        {
-            if (i<listReward.ListReward.Count)
-            {
-                spinWheel.prize[i] = listReward.ListReward[i].RewardName;
-                spinWheel.txtReward[i].text = listReward.ListReward[i].RewardName;
+    //    for (int i = 0; i < spinWheel.txtReward.Count; i++)
+    //    {
+    //        if (i<listReward.ListReward.Count)
+    //        {
+    //            spinWheel.prize[i] = listReward.ListReward[i].RewardName;
+    //            spinWheel.txtReward[i].text = listReward.ListReward[i].RewardName;
 
-            }
-            else
-            {
-                spinWheel.prize[i] = "Zonk";
-                spinWheel.txtReward[i].text = "Zonk";
-            }
+    //        }
+    //        else
+    //        {
+    //            spinWheel.prize[i] = "Zonk";
+    //            spinWheel.txtReward[i].text = "Zonk";
+    //        }
 
-        }
-        MultipleReward();
-        txtfield.onValueChanged.AddListener(delegate { MultipleReward(); });
-        disablePanel.SetActive(false);
-    }
+    //    }
+    //    MultipleReward();
+    //    txtfield.onValueChanged.AddListener(delegate { MultipleReward(); });
+    //    disablePanel.SetActive(false);
+    //}
 
     public string KiloFormat(float num)
     {
@@ -416,7 +374,7 @@ public class GameManager : MonoBehaviour
             if (i <ListHistoryUser.ListHistoryReward.Count)
             {
                 txtHistory[i].text = ListHistoryUser.ListHistoryReward[i].RewardTime.ToString();
-                txtHistory[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = KiloFormat(float.Parse(ListHistoryUser.ListHistoryReward[i].RewardName));
+                txtHistory[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = KiloFormat(float.Parse(ListHistoryUser.ListHistoryReward[i].TotalReward));
             }
             else
             {
@@ -491,175 +449,280 @@ public class GameManager : MonoBehaviour
 
     public void ReloadUserHistory()
     {
-        StartCoroutine(GetHistoryUser(userInfo.UserID));
+        StartCoroutine(RequestHistory());
     }
 
     ////////////////////////Tester Wilson/////////////////////////////////////////
 
-    IEnumerator GetCoinUser()
+    //IEnumerator GetCoinUser()
+    //{
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("UserID", userInfo.UserID);
+
+    //    using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "WheelSpin/GetUserCoin.php", form))
+    //    {
+
+    //        yield return www.SendWebRequest();
+    //        if (www.isNetworkError || www.isHttpError)
+    //        {
+    //            //Debug.Log(www.error);
+    //            StartCoroutine(GetCoinUser());
+    //        }
+    //        else
+    //        {
+    //            if (www.downloadHandler.text == "0")
+    //            {
+    //                //Debug.Log("Errorrr");
+    //                StartCoroutine(GetCoinUser());
+    //            }
+    //            else
+    //            {
+    //                userInfo.UserCoin = double.Parse(www.downloadHandler.text);
+    //                //numberCount._value = userInfo.UserCoin;
+    //                //txtCoin.text = string.Format("{0:#,0.##}", userInfo.UserCoin);
+    //                StopCoroutine(GetCoinUser());
+    //            }
+
+    //        }
+    //    }
+    //}
+
+    public IEnumerator RequestGetReward()
+    {
+        string url = UserInfoManager.linkWeb + "/api/RewardWheel";
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        yield return request.SendWebRequest();
+        if (request.isHttpError || request.isNetworkError)
+        {
+            Debug.Log(request.error);
+            yield break;
+        }
+        else
+        {
+            Debug.Log(request.downloadHandler.text);
+            StopCoroutine(RequestGetReward());
+            ProcessJsonDataListReward(request.downloadHandler.text);
+        }
+    }
+    IEnumerator POSTHistory(int rewardID)
     {
         WWWForm form = new WWWForm();
         form.AddField("UserID", userInfo.UserID);
-
-        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "WheelSpin/GetUserCoin.php", form))
-        {
-
-            yield return www.SendWebRequest();
-            if (www.isNetworkError || www.isHttpError)
-            {
-                //Debug.Log(www.error);
-                StartCoroutine(GetCoinUser());
-            }
-            else
-            {
-                if (www.downloadHandler.text == "0")
-                {
-                    //Debug.Log("Errorrr");
-                    StartCoroutine(GetCoinUser());
-                }
-                else
-                {
-                    userInfo.UserCoin = double.Parse(www.downloadHandler.text);
-                    //numberCount._value = userInfo.UserCoin;
-                    //txtCoin.text = string.Format("{0:#,0.##}", userInfo.UserCoin);
-                    StopCoroutine(GetCoinUser());
-                }
-
-            }
-        }
-    }
-    IEnumerator SendHistory(int rewardID, int userID)
-    {
-        //Debug.Log("Send History");
-        WWWForm form = new WWWForm();
         form.AddField("RewardID", rewardID);
         form.AddField("Multiple", betManager.betTotal);
-        form.AddField("Total", total.ToString());
-        form.AddField("UserID", userID);
+        form.AddField("TotalReward", total.ToString());
 
-        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "WheelSpin/InsertHistoryManager.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/CreateHistoryWheel", form))
         {
-
             yield return www.SendWebRequest();
-            //Debug.Log("Send WebRequest");
+
             if (www.isNetworkError || www.isHttpError)
             {
-                //Debug.Log(www.error + " Send Data");
-                isFinishSendData = false;
-                StopAllCoroutines();
-                StartCoroutine(SendHistory(listReward.ListReward[tempPosWin].RewardID, userInfo.UserID));
+                Debug.Log(www.error);
             }
             else
             {
-                if (www.downloadHandler.text == "0")
-                {
-                    //Debug.Log("Error Send Data");
-                    isFinishSendData = false;
-                    StopAllCoroutines();
-                    StartCoroutine(SendHistory(listReward.ListReward[tempPosWin].RewardID, userInfo.UserID));
-
-                }
-                else
-                {
-                    //Debug.Log("FinishSendData " + www.downloadHandler.text);
-                    yield return StartCoroutine(GetCoinUser());
-                    yield return StartCoroutine(GetHistoryUser(userID));
-                    isFinishSendData = true;
-                    indicator.color = Color.green;
-                    spin = false;
-                    StopCoroutine("SendHistory");
-                }
-
+                yield return StartCoroutine(RequestCoin());
+                yield return StartCoroutine(RequestHistory());
+                isFinishSendData = true;
+                indicator.color = Color.green;
+                spin = false;
+                StopCoroutine(nameof(POSTHistory));
+                Debug.Log("Form upload complete!");
             }
         }
-
     }
-    IEnumerator GetRewardDetail()
+    public IEnumerator RequestCoin()
     {
-        UnityWebRequest www = UnityWebRequest.Get(UserInfoManager.linkWeb + "WheelSpin/GetRewardDetail.php");
-        yield return www.SendWebRequest();
-        if (www.isNetworkError)
+        string url = UserInfoManager.linkWeb + "/api/UserInfo/GetCoin?UserID=" + userInfo.UserID;
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        yield return request.SendWebRequest();
+        if (request.isHttpError || request.isNetworkError)
         {
-            //Debug.LogError("Errror Connection");
-            StartCoroutine(GetRewardDetail());
+            Debug.Log(request.error);
+            yield break;
         }
         else
         {
-            if (www.isDone)
+            Debug.Log(request.downloadHandler.text);
+            userInfo.UserCoin = double.Parse(request.downloadHandler.text);
+        }
+    }
+    void ProcessJsonDataListReward(string url)
+    {
+        listReward = JsonUtility.FromJson<ListRewardDetail>(url);
+
+        for (int i = 0; i < spinWheel.txtReward.Count; i++)
+        {
+            if (i < listReward.ListReward.Count)
             {
-                //Debug.Log(www.downloadHandler.text);
-                ProcessJsonDataList(www.downloadHandler.text);
-                StopCoroutine(GetRewardDetail());
+                spinWheel.prize[i] = listReward.ListReward[i].RewardName;
+                spinWheel.txtReward[i].text = listReward.ListReward[i].RewardName;
+
             }
             else
             {
-                //Debug.LogError("Errror Connection");
-                StartCoroutine(GetRewardDetail());
-
+                spinWheel.prize[i] = "Zonk";
+                spinWheel.txtReward[i].text = "Zonk";
             }
-        }
 
+        }
+        MultipleReward();
+        txtfield.onValueChanged.AddListener(delegate { MultipleReward(); });
+        disablePanel.SetActive(false);
     }
 
-    IEnumerator GetJackpotDetail()
+
+    //IEnumerator SendHistory(int rewardID, int userID)
+    //{
+    //    //Debug.Log("Send History");
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("RewardID", rewardID);
+    //    form.AddField("Multiple", betManager.betTotal);
+    //    form.AddField("Total", total.ToString());
+    //    form.AddField("UserID", userID);
+
+    //    using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "WheelSpin/InsertHistoryManager.php", form))
+    //    {
+
+    //        yield return www.SendWebRequest();
+    //        //Debug.Log("Send WebRequest");
+    //        if (www.isNetworkError || www.isHttpError)
+    //        {
+    //            //Debug.Log(www.error + " Send Data");
+    //            isFinishSendData = false;
+    //            StopAllCoroutines();
+    //            StartCoroutine(SendHistory(listReward.ListReward[tempPosWin].RewardID, userInfo.UserID));
+    //        }
+    //        else
+    //        {
+    //            if (www.downloadHandler.text == "0")
+    //            {
+    //                //Debug.Log("Error Send Data");
+    //                isFinishSendData = false;
+    //                StopAllCoroutines();
+    //                StartCoroutine(SendHistory(listReward.ListReward[tempPosWin].RewardID, userInfo.UserID));
+
+    //            }
+    //            else
+    //            {
+    //                //Debug.Log("FinishSendData " + www.downloadHandler.text);
+    //                yield return StartCoroutine(GetCoinUser());
+    //                yield return StartCoroutine(GetHistoryUser(userID));
+    //                isFinishSendData = true;
+    //                indicator.color = Color.green;
+    //                spin = false;
+    //                StopCoroutine("SendHistory");
+    //            }
+
+    //        }
+    //    }
+
+    //}
+    //IEnumerator GetRewardDetail()
+    //{
+    //    UnityWebRequest www = UnityWebRequest.Get(UserInfoManager.linkWeb + "WheelSpin/GetRewardDetail.php");
+    //    yield return www.SendWebRequest();
+    //    if (www.isNetworkError)
+    //    {
+    //        //Debug.LogError("Errror Connection");
+    //        StartCoroutine(GetRewardDetail());
+    //    }
+    //    else
+    //    {
+    //        if (www.isDone)
+    //        {
+    //            //Debug.Log(www.downloadHandler.text);
+    //            ProcessJsonDataList(www.downloadHandler.text);
+    //            StopCoroutine(GetRewardDetail());
+    //        }
+    //        else
+    //        {
+    //            //Debug.LogError("Errror Connection");
+    //            StartCoroutine(GetRewardDetail());
+
+    //        }
+    //    }
+
+    //}
+
+    //IEnumerator GetJackpotDetail()
+    //{
+    //    UnityWebRequest www = UnityWebRequest.Get(UserInfoManager.linkWeb + "WheelSpin/GetJackpotHistory.php");
+    //    yield return www.SendWebRequest();
+    //    if (www.isNetworkError)
+    //    {
+    //        //Debug.LogError("Errror Connection");
+    //        StartCoroutine(GetJackpotDetail());
+    //    }
+    //    else
+    //    {
+    //        if (www.isDone)
+    //        {
+    //            //Debug.LogError("Get Jackpot Data");
+    //            Debug.Log(www.downloadHandler.text);
+    //            ProcessJsonJackpotDataList(www.downloadHandler.text);
+    //            StopCoroutine(GetJackpotDetail());
+    //        }
+    //        else
+    //        {
+    //            //Debug.LogError("Errror Getdata");
+    //            StartCoroutine(GetJackpotDetail());
+    //        }
+    //    }
+
+    //}
+    //IEnumerator GetHistoryUser(int userID)
+    //{
+    //    WWWForm form = new WWWForm();
+    //    form.AddField("UserID", userID);
+
+    //    using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "WheelSpin/GetUserRewardHistory.php", form))
+    //    {
+
+    //        yield return www.SendWebRequest();
+    //        if (www.isNetworkError || www.isHttpError)
+    //        {
+    //            //Debug.Log(www.error);
+    //            StartCoroutine(GetHistoryUser(userID));
+    //        }
+    //        else
+    //        {
+    //            if (www.downloadHandler.text == "0")
+    //            {
+    //                //Debug.Log("Errorrr");
+    //                StartCoroutine(GetHistoryUser(userID));
+    //            }
+    //            else
+    //            {
+    //                //Debug.Log(www.downloadHandler.text);
+    //                ProcessJsonDataListUserHistory(www.downloadHandler.text);
+    //                StopCoroutine("GetHistoryUser");
+    //            }
+
+    //        }
+    //    }
+
+
+    //}
+    public IEnumerator RequestHistory()
     {
-        UnityWebRequest www = UnityWebRequest.Get(UserInfoManager.linkWeb + "WheelSpin/GetJackpotHistory.php");
-        yield return www.SendWebRequest();
-        if (www.isNetworkError)
+        string url = UserInfoManager.linkWeb + "/api/HistoryWheel?UserID=" + userInfo.UserID;
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        yield return request.SendWebRequest();
+        if (request.isHttpError || request.isNetworkError)
         {
-            //Debug.LogError("Errror Connection");
-            StartCoroutine(GetJackpotDetail());
+            Debug.Log(request.error);
+            yield break;
         }
         else
         {
-            if (www.isDone)
-            {
-                //Debug.LogError("Get Jackpot Data");
-                Debug.Log(www.downloadHandler.text);
-                ProcessJsonJackpotDataList(www.downloadHandler.text);
-                StopCoroutine(GetJackpotDetail());
-            }
-            else
-            {
-                //Debug.LogError("Errror Getdata");
-                StartCoroutine(GetJackpotDetail());
-            }
+            Debug.Log(request.downloadHandler.text);
+            ProcessJsonDataListUserHistory(request.downloadHandler.text);
         }
-
     }
-    IEnumerator GetHistoryUser(int userID)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("UserID", userID);
-
-        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "WheelSpin/GetUserRewardHistory.php", form))
-        {
-
-            yield return www.SendWebRequest();
-            if (www.isNetworkError || www.isHttpError)
-            {
-                //Debug.Log(www.error);
-                StartCoroutine(GetHistoryUser(userID));
-            }
-            else
-            {
-                if (www.downloadHandler.text == "0")
-                {
-                    //Debug.Log("Errorrr");
-                    StartCoroutine(GetHistoryUser(userID));
-                }
-                else
-                {
-                    //Debug.Log(www.downloadHandler.text);
-                    ProcessJsonDataListUserHistory(www.downloadHandler.text);
-                    StopCoroutine("GetHistoryUser");
-                }
-
-            }
-        }
 
 
-    }
     ////////////////////////////////////////////////////////////////////////////
 
 
@@ -772,7 +835,7 @@ public class GameManager : MonoBehaviour
         {
             Message.GetComponent<WinAnimation>().TextPopUpFly(string.Format("{0:#,0.##}", total));
         }
-        StartCoroutine(SendHistory(listReward.ListReward[pos].RewardID, userInfo.UserID));
+        StartCoroutine(POSTHistory(listReward.ListReward[pos].RewardID));
         //Debug.Log("CheckWinLose");
     }
     void PopUpTXTIDR()
@@ -854,7 +917,7 @@ public class GameManager : MonoBehaviour
 
     private void onGameRewardChangeHandler(object sender, string reward)
     {
-        ProcessJsonDataList(reward);
+        ProcessJsonDataListReward(reward);
     }
 
     private void onGameErrorHandler(object sender, string message)
