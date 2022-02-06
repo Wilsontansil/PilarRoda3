@@ -16,7 +16,6 @@ public class ClassUser
     //public string DateGenerate;
 
 }
-
 [System.Serializable]
 public class RewardDetail
 {
@@ -65,8 +64,6 @@ public class UserInfoManager : MonoBehaviour
 {
     [DllImport("__Internal")]
     private static extern string GetURLFromPage();
-
-
     public int UserID;
     public string UserName;
     //public string UserPhone;
@@ -75,17 +72,15 @@ public class UserInfoManager : MonoBehaviour
 
     public static string linkWeb;
 
-    public Text message;
+    //public Text message;
 
     private GameClient client;
     private string url;
-
-    int count = 0;
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        linkWeb = "https://free2587890.000webhostapp.com";
-        //linkWeb = "http://127.0.0.1:8000";
+        //linkWeb = "https://free2587890.000webhostapp.com";
+        linkWeb = "http://127.0.0.1:8000";
     }
     private void Start()
     {
@@ -117,24 +112,6 @@ public class UserInfoManager : MonoBehaviour
         StartCoroutine(POSTLogIn(17020001));
     }
 
-    void Loading()
-    {
-        if (message!=null)
-        {
-            if (count > 3)
-            {
-                message.text = "Connecting";
-                count = 0;
-            }
-            else
-            {
-                message.text += ".";
-            }
-
-            count++;
-        }
-
-    }
     private string getTokenFromURL(string url)
     {
         string[] urlList = url.Split('?');
@@ -220,57 +197,55 @@ public class UserInfoManager : MonoBehaviour
 
 
     }
-
-    //IEnumerator Redeem()
+    //IEnumerator Redeem(int code)
     //{
     //    WWWForm form = new WWWForm();
-    //    form.AddField("UserID", 17020001);
-
-    //    using (UnityWebRequest www = UnityWebRequest.Post(linkWeb+"WheelSpin/LogInUser.php", form))
+    //    form.AddField("UserID", code);
+    //    //byte[] myData = System.Text.Encoding.UTF8.GetBytes(form.data);
+    //    using (UnityWebRequest www = UnityWebRequest.Post("https://free2587890.000webhostapp.com/api/UserInfo/",form))
     //    {
-
     //        yield return www.SendWebRequest();
     //        if (www.isNetworkError || www.isHttpError)
     //        {
     //            Debug.Log(www.error);
-    //            StartCoroutine(Redeem());
+    //            StartCoroutine(Redeem(17020001));
     //        }
     //        else
     //        {
     //            if (www.downloadHandler.text == "0")
     //            {
     //                Debug.Log("Errorrr");
-    //                StartCoroutine(Redeem());
+    //                StartCoroutine(Redeem(17020001));
     //            }
     //            else
     //            {
     //                ProcessJsonData(www.downloadHandler.text);
-    //                StopCoroutine(Redeem());
-    //                SceneManager.LoadScene("WheelSpin");
-    //                //Debug.Log("Finish Grab Data");
+    //                //SceneManager.LoadScene("WheelSpin");
+    //                Debug.Log("Finish Grab Data");
+    //                StopCoroutine("Redeem");
     //            }
     //        }
     //    }
     //}
 
-    //public IEnumerator RequestLogIn(int id)
-    //{
-    //    string url = linkWeb + "/api/UserInfo?UserID=" + id;
-    //    UnityWebRequest request = UnityWebRequest.Get(url);
-    //    yield return request.SendWebRequest();
-    //    if (request.isHttpError || request.isNetworkError)
-    //    {
-    //        Debug.Log(request.error);
-    //        yield break;
-    //    }
-    //    else
-    //    {
-    //        Debug.Log(request.downloadHandler.text);
-    //        ProcessJsonData(request.downloadHandler.text);
-    //        StopAllCoroutines();
-    //        SceneManager.LoadScene("WheelSpin");
-    //    }
-    //}
+    ////public IEnumerator RequestLogIn(int id)
+    ////{
+    ////    string url = linkWeb+ "/api/UserInfo?UserID=" + id;
+    ////    UnityWebRequest request = UnityWebRequest.Get(url);
+    ////    yield return request.SendWebRequest();
+    ////    if (request.isHttpError || request.isNetworkError)
+    ////    {
+    ////        Debug.Log(request.error);
+    ////        yield break;
+    ////    }
+    ////    else
+    ////    {
+    ////        Debug.Log(request.downloadHandler.text);
+    ////        ProcessJsonData(request.downloadHandler.text);
+    ////        StopAllCoroutines();
+    ////        SceneManager.LoadScene("WheelSpin");
+    ////    }
+    ////}
     public IEnumerator POSTLogIn(int id)
     {
         WWWForm form = new WWWForm();
@@ -279,7 +254,7 @@ public class UserInfoManager : MonoBehaviour
         using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/UserInfo", form))
         {
             yield return www.SendWebRequest();
-            Debug.Log(www.downloadHandler.text);
+
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
@@ -293,6 +268,9 @@ public class UserInfoManager : MonoBehaviour
             }
         }
     }
+
+
+
 }
 
 

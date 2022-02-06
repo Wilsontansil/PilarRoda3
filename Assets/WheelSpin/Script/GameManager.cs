@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     public void ReloadReward()
     {
         //client.Send("getallreward", "");
-        StartCoroutine(RequestGetReward());
+        StartCoroutine(POSTGetReward());
     }
 
 
@@ -449,7 +449,7 @@ public class GameManager : MonoBehaviour
 
     public void ReloadUserHistory()
     {
-        StartCoroutine(RequestHistory());
+        StartCoroutine(POSTGetHistory());
     }
 
     ////////////////////////Tester Wilson/////////////////////////////////////////
@@ -487,26 +487,46 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-    public IEnumerator RequestGetReward()
+    //public IEnumerator RequestGetReward()
+    //{
+    //    string url = UserInfoManager.linkWeb + "/api/RewardWheel";
+    //    UnityWebRequest request = UnityWebRequest.Get(url);
+    //    yield return request.SendWebRequest();
+    //    if (request.isHttpError || request.isNetworkError)
+    //    {
+    //        Debug.Log(request.error);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log(request.downloadHandler.text);
+    //        StopCoroutine(RequestGetReward());
+    //        ProcessJsonDataListReward(request.downloadHandler.text);
+    //    }
+    //}
+    IEnumerator POSTGetReward()
     {
-        string url = UserInfoManager.linkWeb + "/api/RewardWheel";
-        UnityWebRequest request = UnityWebRequest.Get(url);
-        yield return request.SendWebRequest();
-        if (request.isHttpError || request.isNetworkError)
+        WWWForm form = new WWWForm();
+        form.AddField("GameName", name.ToString());
+
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/RewardWheel", form))
         {
-            Debug.Log(request.error);
-            yield break;
-        }
-        else
-        {
-            Debug.Log(request.downloadHandler.text);
-            StopCoroutine(RequestGetReward());
-            ProcessJsonDataListReward(request.downloadHandler.text);
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                StopCoroutine(POSTGetReward());
+                ProcessJsonDataListReward(www.downloadHandler.text);
+            }
         }
     }
     IEnumerator POSTHistory(int rewardID)
     {
         WWWForm form = new WWWForm();
+        form.AddField("GameName", name.ToString());
         form.AddField("UserID", userInfo.UserID);
         form.AddField("RewardID", rewardID);
         form.AddField("Multiple", betManager.betTotal);
@@ -522,8 +542,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                yield return StartCoroutine(RequestCoin());
-                yield return StartCoroutine(RequestHistory());
+                yield return StartCoroutine(POSTRequestCoin());
+                yield return StartCoroutine(POSTGetHistory());
                 isFinishSendData = true;
                 indicator.color = Color.green;
                 spin = false;
@@ -532,20 +552,41 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public IEnumerator RequestCoin()
+    //public IEnumerator RequestCoin()
+    //{
+    //    string url = UserInfoManager.linkWeb + "/api/UserInfo/GetCoin?UserID=" + userInfo.UserID;
+    //    UnityWebRequest request = UnityWebRequest.Get(url);
+    //    yield return request.SendWebRequest();
+    //    if (request.isHttpError || request.isNetworkError)
+    //    {
+    //        Debug.Log(request.error);
+    //        yield break;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log(request.downloadHandler.text);
+    //        userInfo.UserCoin = double.Parse(request.downloadHandler.text);
+    //    }
+    //}
+    public IEnumerator POSTRequestCoin()
     {
-        string url = UserInfoManager.linkWeb + "/api/UserInfo/GetCoin?UserID=" + userInfo.UserID;
-        UnityWebRequest request = UnityWebRequest.Get(url);
-        yield return request.SendWebRequest();
-        if (request.isHttpError || request.isNetworkError)
+        WWWForm form = new WWWForm();
+        form.AddField("UserID", userInfo.UserID);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/GetCoin", form))
         {
-            Debug.Log(request.error);
-            yield break;
-        }
-        else
-        {
-            Debug.Log(request.downloadHandler.text);
-            userInfo.UserCoin = double.Parse(request.downloadHandler.text);
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                //Debug.Log(www.downloadHandler.text);
+                //ProcessJsonDataListUserHistory(www.downloadHandler.text);
+                userInfo.UserCoin = double.Parse(www.downloadHandler.text);
+            }
         }
     }
     void ProcessJsonDataListReward(string url)
@@ -705,24 +746,44 @@ public class GameManager : MonoBehaviour
 
 
     //}
-    public IEnumerator RequestHistory()
+    //public IEnumerator RequestHistory()
+    //{
+    //    string url = UserInfoManager.linkWeb + "/api/HistoryWheel?UserID=" + userInfo.UserID;
+    //    UnityWebRequest request = UnityWebRequest.Get(url);
+    //    yield return request.SendWebRequest();
+    //    if (request.isHttpError || request.isNetworkError)
+    //    {
+    //        Debug.Log(request.error);
+    //        yield break;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log(request.downloadHandler.text);
+    //        ProcessJsonDataListUserHistory(request.downloadHandler.text);
+    //    }
+    //}
+
+    public IEnumerator POSTGetHistory()
     {
-        string url = UserInfoManager.linkWeb + "/api/HistoryWheel?UserID=" + userInfo.UserID;
-        UnityWebRequest request = UnityWebRequest.Get(url);
-        yield return request.SendWebRequest();
-        if (request.isHttpError || request.isNetworkError)
+        WWWForm form = new WWWForm();
+        form.AddField("UserID", userInfo.UserID);
+        form.AddField("GameName", name.ToString());
+
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/HistoryWheel", form))
         {
-            Debug.Log(request.error);
-            yield break;
-        }
-        else
-        {
-            Debug.Log(request.downloadHandler.text);
-            ProcessJsonDataListUserHistory(request.downloadHandler.text);
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log(www.downloadHandler.text);
+                ProcessJsonDataListUserHistory(www.downloadHandler.text);
+            }
         }
     }
-
-
     ////////////////////////////////////////////////////////////////////////////
 
 
