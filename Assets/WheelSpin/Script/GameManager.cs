@@ -508,7 +508,7 @@ public class GameManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("GameName", name.ToString());
 
-        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/RewardWheel", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/Reward", form))
         {
             yield return www.SendWebRequest();
 
@@ -523,7 +523,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    IEnumerator POSTHistory(int rewardID)
+    IEnumerator POSTHistory(string rewardID)
     {
         WWWForm form = new WWWForm();
         form.AddField("GameName", name.ToString());
@@ -532,7 +532,7 @@ public class GameManager : MonoBehaviour
         form.AddField("Multiple", betManager.betTotal);
         form.AddField("TotalReward", total.ToString());
 
-        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/CreateHistoryWheel", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/CreateHistory", form))
         {
             yield return www.SendWebRequest();
 
@@ -585,6 +585,7 @@ public class GameManager : MonoBehaviour
             {
                 //Debug.Log(www.downloadHandler.text);
                 //ProcessJsonDataListUserHistory(www.downloadHandler.text);
+                StopCoroutine(POSTRequestCoin());
                 userInfo.UserCoin = double.Parse(www.downloadHandler.text);
             }
         }
@@ -769,7 +770,7 @@ public class GameManager : MonoBehaviour
         form.AddField("UserID", userInfo.UserID);
         form.AddField("GameName", name.ToString());
 
-        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/HistoryWheel", form))
+        using (UnityWebRequest www = UnityWebRequest.Post(UserInfoManager.linkWeb + "/api/History", form))
         {
             yield return www.SendWebRequest();
 
@@ -779,7 +780,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log(www.downloadHandler.text);
+                //Debug.Log(www.downloadHandler.text);
+                StopCoroutine(POSTGetHistory());
                 ProcessJsonDataListUserHistory(www.downloadHandler.text);
             }
         }

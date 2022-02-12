@@ -19,7 +19,7 @@ public class ClassUser
 [System.Serializable]
 public class RewardDetail
 {
-    public int RewardID;
+    public string RewardID;
     public string RewardName;
     public int RewardPosition;
     public int RewardPercentage;

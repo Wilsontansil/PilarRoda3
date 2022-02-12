@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/DummyLogIn/Scene/LogIn.unity
-    guid: eb1d6a5a6e075884a910ed76e7239062
-  - enabled: 1
     path: Assets/WheelSpin/Scenes/Wheel/WheelSpin.unity
     guid: 77c40a2c46e2b2d498922a8635a85aa0
+  - enabled: 1
+    path: Assets/DummyLogIn/Scene/LogIn.unity
+    guid: 968dacf19e34fc940a3f44806a07ffd6
   m_configObjects: {}
